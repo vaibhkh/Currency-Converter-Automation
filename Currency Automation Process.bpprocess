@@ -1,0 +1,146 @@
+﻿<process name="Final Project Process" version="1.0" bpversion="6.10.2.42081" narrative="" byrefcollection="true" preferredid="e0dc4557-65d9-4dfd-9675-e9ec95a9d2d9">
+  <view>
+    <camerax>178</camerax>
+    <cameray>-84</cameray>
+    <zoom version="2">1.25</zoom>
+  </view>
+  <preconditions />
+  <endpoint narrative="" />
+  <stage stageid="30306fbe-69cb-4a5e-8816-70dfd8d2a967" name="Start" type="Start">
+    <display x="-60" y="-135" />
+    <onsuccess>80f1bf88-5e38-4ad1-9f73-920185af3e57</onsuccess>
+  </stage>
+  <stage stageid="540a82e8-7ef3-436c-92c0-9187b30fc6da" name="End" type="End">
+    <display x="-135" y="30" />
+  </stage>
+  <stage stageid="d2513738-a7c8-4ef4-b051-8f6fa183d8b1" name="Stage1" type="ProcessInfo">
+    <display x="-195" y="-105" w="150" h="90" />
+  </stage>
+  <stage stageid="be019c74-a3ee-49e0-8e2f-ef557e42c0f6" name="Handle" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="150" y="-150" />
+    <datatype>number</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="221a40da-84d2-465c-8a07-6064b45ae9b4" name="Workbook Name" type="Data">
+    <loginhibit onsuccess="true" />
+    <display x="225" y="-150" />
+    <datatype>text</datatype>
+    <initialvalue />
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="dd9e126a-44a1-43c3-84ed-d3f712f40c81" name="Data" type="Collection">
+    <display x="60" y="-150" />
+    <datatype>collection</datatype>
+    <private />
+    <alwaysinit />
+  </stage>
+  <stage stageid="80f1bf88-5e38-4ad1-9f73-920185af3e57" name="Create XL Instance" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="-60" y="-75" />
+    <inputs>
+      <input type="flag" name="Enable Events" friendlyname="Enable Events" narrative="Flag to indicate that events should be enabled / disabled on the attached instance - defaulted to True" expr="" />
+    </inputs>
+    <outputs>
+      <output type="number" name="handle" friendlyname="handle" narrative="An integer which can be used to identify the created instance in subsequent actions" stage="Handle" />
+    </outputs>
+    <onsuccess>98c4d201-0713-4d1e-8193-7f0e6d4eb198</onsuccess>
+    <resource object="MS Excel VBO" action="Create Instance" />
+  </stage>
+  <stage stageid="98c4d201-0713-4d1e-8193-7f0e6d4eb198" name="Open Work Book" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="15" y="-75" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the required workbook should be opened. The default of zero indicates the currently active instance." expr="[Handle]" />
+      <input type="text" name="File name" friendlyname="File name" narrative="The path and name of the file which should be opened." expr="&quot;C:\ProgramData\Blue Prism Limited\Project\RPA Work 5.xlsx&quot;" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name used by Excel to identify the workbook - usually this is the file name (without the path)." stage="Workbook Name" />
+    </outputs>
+    <onsuccess>1bb86247-a09c-4973-887c-4db902c5739d</onsuccess>
+    <resource object="MS Excel VBO" action="Open Workbook" />
+  </stage>
+  <stage stageid="1bb86247-a09c-4973-887c-4db902c5739d" name="Read From Workbook" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="90" y="-75" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the worksheet which should be retrieved resides. The default of zero indicates the currently active instance." expr="[Handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which contains the sheet required. The default empty text indicates the currently active workbook on the specified instance." expr="[Workbook Name]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet within the specified workbook which should be written to a collection. The default empty text indicates the currently active worksheet within the specified workbook." expr="&quot;Sheet2&quot;" />
+      <input type="text" name="Fetch Data With Method" friendlyname="Fetch Data With Method" narrative="The method used to fetch data from cells in the worksheet. Options include Text, Value, and Value2. The default indicates Value will be used." expr="" />
+    </inputs>
+    <outputs>
+      <output type="collection" name="Data" friendlyname="Data" narrative="The collection containing the data from the specified worksheet - the column IDs will be gleaned from the first row on the sheet being retrieved." stage="Data" />
+    </outputs>
+    <onsuccess>0d77c002-bd1a-4de5-b012-8cba30464d79</onsuccess>
+    <resource object="MS Excel VBO" action="Get Worksheet As Collection" />
+  </stage>
+  <stage stageid="885aa3eb-3f00-4bc1-8bd5-8bcfc024f631" name="Launch " type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="240" y="-75" />
+    <onsuccess>efb3a63f-c693-462a-b4d4-7c7016a48a4e</onsuccess>
+    <resource object="Final Project" action="Launch" />
+  </stage>
+  <stage stageid="0d77c002-bd1a-4de5-b012-8cba30464d79" name="Loop Start1" type="LoopStart">
+    <loginhibit onsuccess="true" />
+    <display x="165" y="-75" />
+    <onsuccess>885aa3eb-3f00-4bc1-8bd5-8bcfc024f631</onsuccess>
+    <groupid>611fa8fe-ffaa-4c5e-8961-03175c464880</groupid>
+    <looptype>ForEach</looptype>
+    <loopdata>Data</loopdata>
+  </stage>
+  <stage stageid="2c8e6e14-c267-4907-84c3-3f61d2f6211e" name="Loop End1" type="LoopEnd">
+    <loginhibit onsuccess="true" />
+    <display x="150" y="30" />
+    <onsuccess>22711a28-5763-4b3d-a0e5-ede54d73995d</onsuccess>
+    <groupid>611fa8fe-ffaa-4c5e-8961-03175c464880</groupid>
+  </stage>
+  <stage stageid="efb3a63f-c693-462a-b4d4-7c7016a48a4e" name="Enter Data" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="240" y="-15" />
+    <inputs>
+      <input type="text" name="From Currency" friendlyname="From Currency" expr="[Data.From Currency]" />
+      <input type="number" name="Input Value" friendlyname="Input Value" expr="[Data.Value]" />
+      <input type="text" name="To Currency" friendlyname="To Currency" expr="&quot;INR&quot;" />
+    </inputs>
+    <outputs>
+      <output type="text" name="Convert Data" friendlyname="Convert Data" stage="Data.INR" />
+    </outputs>
+    <onsuccess>577e8803-12b4-4fb6-9df7-1b0a4c02f048</onsuccess>
+    <resource object="Final Project" action="Input Value" />
+  </stage>
+  <stage stageid="22711a28-5763-4b3d-a0e5-ede54d73995d" name="Update XI" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="60" y="30" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the specified collection should be written. The default of zero indicates the currently active instance." expr="[Handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook within which the data should be written. The default empty value indicates the current workbook within the specified instance." expr="[Workbook Name]" />
+      <input type="collection" name="Collection" friendlyname="Collection" narrative="The collection containing the data which should be written to the worksheet." expr="[Data]" />
+      <input type="text" name="Worksheet Name" friendlyname="Worksheet Name" narrative="The name of the worksheet on which the given data should be written. The default empty value indicates the current sheet within the specified workbook." expr="&quot;Sheet2&quot;" />
+      <input type="text" name="Cell Reference" friendlyname="Cell Reference" narrative="The reference at which the collection should be written." expr="&quot;A3&quot;" />
+      <input type="flag" name="Include Column Names" friendlyname="Include Column Names" narrative="True to indicate that the column names from the collection should be written out as the first row; False to ignore the column names and just write out the data." expr="&quot;false&quot;" />
+    </inputs>
+    <onsuccess>b6b10ad3-7826-402f-8aa9-349d23cea9bf</onsuccess>
+    <resource object="MS Excel VBO" action="Write Collection" />
+  </stage>
+  <stage stageid="b6b10ad3-7826-402f-8aa9-349d23cea9bf" name="Save and Close" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="-45" y="30" />
+    <inputs>
+      <input type="number" name="handle" friendlyname="handle" narrative="The integer handle identifying the instance on which the workbook which should be closed resides. The default of zero indicates the currently active instance." expr="[Handle]" />
+      <input type="text" name="Workbook Name" friendlyname="Workbook Name" narrative="The name of the workbook which should be closed." expr="[Workbook Name]" />
+      <input type="flag" name="Save Data" friendlyname="Save Data" narrative="True to save the data before closing the workbook; The default of False will discard any changes before closing the workbook." expr="&quot;True&quot;" />
+    </inputs>
+    <onsuccess>540a82e8-7ef3-436c-92c0-9187b30fc6da</onsuccess>
+    <resource object="MS Excel VBO" action="Close Workbook" />
+  </stage>
+  <stage stageid="577e8803-12b4-4fb6-9df7-1b0a4c02f048" name="Final Project::Terminate" type="Action">
+    <loginhibit onsuccess="true" />
+    <display x="240" y="30" />
+    <onsuccess>2c8e6e14-c267-4907-84c3-3f61d2f6211e</onsuccess>
+    <resource object="Final Project" action="Terminate" />
+  </stage>
+</process>
